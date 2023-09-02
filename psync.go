@@ -4,29 +4,64 @@ import (
 	"cloud.google.com/go/storage"
 	"context"
 	"fmt"
+	"github.com/lucasgolino/psync/config"
 	"io"
 	"log"
+	"os"
+	"time"
 )
 
-type Psync struct {
-	ctx    context.Context
-	Bucket *storage.BucketHandle
+func NewRoutine(config config.Config, driver Driver) *Runner {
+	return &Runner{
+		Driver: driver,
+		Config: config,
+		ctx:    context.Background(),
+	}
 }
 
-func (p *Psync) Routine() {
-	config := LoadConfig()
-	p.ctx = context.Background()
+type Runner struct {
+	ctx    context.Context
+	Bucket *storage.BucketHandle
+	Config config.Config
 
+	Driver Driver
+}
+
+func (p *Runner) Run() error {
 	client, err := storage.NewClient(p.ctx)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client.Close()
 
-	p.Bucket = client.Bucket(config.Bucket)
+	p.Bucket = client.Bucket(p.Config.Bucket)
+
+	fullFilePath, err := p.Driver.Get()
+	if err != nil {
+		fmt.Printf("failed: %v", err)
+		return err
+	}
+
+	r, err := os.Open(fullFilePath)
+	if err != nil {
+		fmt.Printf("failed to openfile: %v", err)
+		return err
+	}
+	defer r.Close()
+
+	if err = p.SyncFile(p.genFileName(), r); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (p *Psync) WriteFile(filename string, reader io.Reader) error {
+func (p *Runner) genFileName() string {
+	date := time.Now()
+	return fmt.Sprintf("psync_%d_%d_%d_%d_%d_%d.sql.tar.gz", date.Year(), date.Month(), date.Day(), date.Hour(), date.Minute(), date.Second())
+}
+
+func (p *Runner) SyncFile(filename string, reader io.Reader) error {
 	var obj = p.Bucket.Object(filename)
 	var writer = obj.NewWriter(p.ctx)
 

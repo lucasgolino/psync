@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cloud.google.com/go/storage v1.32.0
-	github.com/joho/godotenv v1.5.1
+	github.com/habx/pg-commands v0.6.1
 )
 
 require (

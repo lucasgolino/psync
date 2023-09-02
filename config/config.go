@@ -1,4 +1,4 @@
-package psync
+package config
 
 import (
 	"os"
@@ -10,7 +10,7 @@ type Config struct {
 	Bucket    string
 }
 
-func LoadConfig() Config {
+func Load() Config {
 	config := Config{
 		ProjectID: os.Getenv("GCS_PROJECT_ID"),
 		Bucket:    os.Getenv("GCS_BUCKET_NAME"),

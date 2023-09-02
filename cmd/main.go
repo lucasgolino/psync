@@ -2,20 +2,15 @@ package main
 
 import (
 	"github.com/lucasgolino/psync"
-	"os"
+	"github.com/lucasgolino/psync/config"
+	"github.com/lucasgolino/psync/drivers/psql"
 )
 
 func main() {
-	var psync psync.Psync
+	cfg := config.Load()
 
-	f, err := os.Open("./samples/sample-10.file")
-	if err != nil {
-		panic("failed to read file")
-	}
-	defer f.Close()
+	driver := psql.NewDriver()
+	run := psync.NewRoutine(cfg, driver)
 
-	psync.Routine()
-	if err = psync.WriteFile("test.txt", f); err != nil {
-		panic("failed to write file")
-	}
+	run.Run()
 }
