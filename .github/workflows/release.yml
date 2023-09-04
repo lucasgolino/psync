@@ -1,0 +1,21 @@
+on:
+  release:
+    types: [created]
+
+name: Build Release Artifacts
+jobs:
+  generate:
+    name: Create release-artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
+
+      - name: Generate the artifacts
+        uses: skx/github-action-build@master
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: Release.txt
