@@ -1,0 +1,14 @@
+[Unit]
+Description=PSync PostgreSQL backup sync for Google Cloud Storage
+Wants=psync.timer
+After=network.target
+
+[Service]
+Type=oneshot
+User=vm
+WorkingDirectory=iPSYNC_INSTALL_PATH
+ExecStart=iPSYNC_INSTALL_PATH/psync
+EnvironmentFile=iPSYNC_INSTALL_PATH/configuration.env
+
+[Install]
+WantedBy=multi-user.target

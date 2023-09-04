@@ -1,0 +1,10 @@
+[Unit]
+Description=PSync daily run
+
+[Timer]
+Unit=psync.service
+OnCalendar=iPSYNC_CRONTIME
+Persistent=true
+
+[Install]
+WantedBy=timers.target
