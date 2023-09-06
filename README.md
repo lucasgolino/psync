@@ -11,8 +11,6 @@
 
 ![pSync](.github/assets/psync_logo.png)
 
-# pSync
-
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/lucasgolino/psync?label=last%20release)
 ![GitHub all releases](https://img.shields.io/github/downloads/lucasgolino/psync/total)
 ![GitHub Repo stars](https://img.shields.io/github/stars/lucasgolino/psync)
