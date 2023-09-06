@@ -8,6 +8,7 @@
 } -->
 
 <div align="center">
+
 ![pSync](.github/assets/psync_logo.png)
 
 # pSync
