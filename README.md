@@ -28,7 +28,8 @@ them in just a few keystrokes.
 </div>
 
 ---
-## Getting started
+# Getting started
+Welcome to pSync, your trusted solution for scheduling PostgreSQL backups and sending them directly to Google Cloud Storage. We've designed pSync to be both powerful and user-friendly, ensuring that even users with minimal technical knowledge can get started in no time.
 
 # Installation
 Installation is a easy process, just run the following shell script in your terminal: install.sh
